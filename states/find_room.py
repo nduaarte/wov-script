@@ -13,7 +13,7 @@ FIND_ROOM_COMPLETE = False
 # time.sleep(3)
 while True:
   if FIND_ROOM_COMPLETE:
-    print("verificação de sala concluída!")
+    print("find_room complete!")
     break
 
   # Loop pra procurar sala.
@@ -21,8 +21,8 @@ while True:
     flag_coords = find_image_on_screen(r"C:\Users\nycol\Desktop\wovbot\assets\na_server.png", region=current_region)
     # Casa não tenha mais salas, vai dar refresh e pesquisar novamente.
     if flag_coords is None:
-      print("sem salas de farms. aguardando atualizar...")
-      time.sleep(4)
+      # print("sem salas de farms. aguardando atualizar...")
+      # time.sleep(5)
       continue  
 
     center_x, center_y = flag_coords
@@ -54,21 +54,21 @@ while True:
     
     if enter_room_button_coords is not None:
       center_x, center_y = enter_room_button_coords
-      time.sleep(1)
+      # time.sleep(1)
       pyautogui.click(center_x, center_y)
       break
 
-  for i in range(3):
+  while True:
     time.sleep(1)
-    game_in_progress_warn = find_image_on_screen(r"C:\Users\nycol\Desktop\wovbot\assets\game_in_progress_warn.png")
+    game_in_progress_warn_coords = find_image_on_screen(r"C:\Users\nycol\Desktop\wovbot\assets\game_in_progress_warn.png")
+    welcome_lobby_coords = find_image_on_screen(r"C:\Users\nycol\Desktop\wovbot\assets\welcome_lobby.png")
 
-    if game_in_progress_warn is None:
-      print("parece que a sala está cheia ou indisponível...")
-      pyautogui.click(200, 200)
-    else:
+    if welcome_lobby_coords is not None:
       FIND_ROOM_COMPLETE = True
       break
 
-
-
-
+    if game_in_progress_warn_coords is not None:
+      print("parece que a sala está cheia ou indisponível...")
+      time.sleep(0.5)
+      pyautogui.click()
+      break
